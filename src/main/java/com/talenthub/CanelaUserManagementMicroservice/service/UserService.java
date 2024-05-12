@@ -21,8 +21,20 @@ public class UserService {
     private RolService rolService;
 
     public User save(UserDTO user) {
-        User newUser = new User(user.getId(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getUsername(),user.getPassword());
-        User savedUser = userRepository.save(newUser);
+        User newUser = new User(user.getId(),user.getFirstName(),user.getLastName(),user.getEmail(),user.getUsername(),user.getPassword());
+        newUser.setUsername(newUser.getFirstname()+"."+newUser.getLastname());
+        boolean hayCorreo=false;
+        Integer numeroCorreo = 1;
+        User savedUser = null;
+        while(!hayCorreo){
+            try {
+                savedUser = userRepository.save(newUser);
+                hayCorreo = true;
+            }catch (Exception ex){
+                newUser.setUsername(newUser.getUsername()+numeroCorreo.toString());
+                numeroCorreo++;
+            }
+        }
         if(rolService.isExistingRole(user.getRole())){
             rolService.addExistingRoleToUser(user.getRole(),savedUser.getId());
         }

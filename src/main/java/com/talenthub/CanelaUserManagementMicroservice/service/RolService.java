@@ -42,8 +42,9 @@ public class RolService {
                 rolAAsignar.getDescription(),
                 rolAAsignar.getStatus(),
                 now.format(formatter),
+                id,
                 id
         );
-        rolRepository.save(newRole);
+        rolRepository.saveAndFlush(newRole);
     }
 }

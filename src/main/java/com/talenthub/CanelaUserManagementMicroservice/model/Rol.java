@@ -1,17 +1,17 @@
 package com.talenthub.CanelaUserManagementMicroservice.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
+@IdClass(RolId.class)
 @Table(name = "rol")
 public class Rol implements Serializable {
 
@@ -30,7 +30,12 @@ public class Rol implements Serializable {
     @Column(name = "creationdate")
     private String creationdate;
 
+    @Column(name = "foreignuserid", nullable = false)
+    private Integer foreignuserid;
+
+    @Id
     @Column(name = "userid", nullable = false)
     private Integer userid;
 
 }
+
