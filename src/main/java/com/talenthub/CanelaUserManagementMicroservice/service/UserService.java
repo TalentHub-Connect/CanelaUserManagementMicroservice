@@ -41,6 +41,7 @@ public class UserService {
                 numeroCorreo++;
             }
         }
+        System.out.println(user.toString());
         if (rolService.isExistingRole(user.getRole())) {
             rolService.addExistingRoleToUser(user.getRole(), savedUser.getId());
         }else{

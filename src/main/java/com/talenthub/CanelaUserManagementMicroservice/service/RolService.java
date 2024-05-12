@@ -58,7 +58,7 @@ public class RolService {
             for(String rol: user.getRoles()) {
 
                 Rol role = rolRepository.findByIdCompuesto(rol, user.getId());
-                System.out.println(role.toString());
+
                 if(role==null){
                     Rol newRole = new Rol(
                             rol,
@@ -69,6 +69,8 @@ public class RolService {
                             user.getId()
                     );
                     rolRepository.save(newRole);
+                }else{
+                    System.out.println(role.toString());
                 }
             }
         }
@@ -76,11 +78,20 @@ public class RolService {
         List<RolId> rolesExistentes = objectListToRolId(rolesExistentesCrudos);
         List<RolId> nuevosRoles = usersWithRolesToRolId(usuarios);
         for(RolId rol: rolesExistentes){
-            if(!nuevosRoles.contains(rol)){
+            if(!contieneRol(nuevosRoles,rol)){
                 rolRepository.deleteFromRolId(rol.getName(),rol.getUserid());
             }
         }
         return true;
+    }
+
+    private boolean contieneRol(List<RolId> nuevosRoles, RolId rol) {
+        for(RolId element: nuevosRoles){
+            if(rol.getUserid() == element.getUserid()&&rol.getName().equals(element.getName())){
+                return true;
+            }
+        }
+        return false;
     }
 
     private List<RolId> objectListToRolId(List<Object[]> rolesExistentesCrudos) {
