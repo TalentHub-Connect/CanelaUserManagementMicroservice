@@ -32,15 +32,17 @@ public class UserService {
         boolean hayCorreo = false;
         Integer numeroCorreo = 1;
         User savedUser = null;
+        String ogUsername = newUser.getUsername();
         while (!hayCorreo) {
             try {
                 savedUser = userRepository.save(newUser);
                 hayCorreo = true;
             } catch (Exception ex) {
-                newUser.setUsername(newUser.getUsername() + numeroCorreo.toString());
+                newUser.setUsername(ogUsername + numeroCorreo.toString());
                 numeroCorreo++;
             }
         }
+        System.out.println(user.toString());
         if (rolService.isExistingRole(user.getRole())) {
             rolService.addExistingRoleToUser(user.getRole(), savedUser.getId());
         }else{
