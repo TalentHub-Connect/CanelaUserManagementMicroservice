@@ -5,6 +5,7 @@ import com.talenthub.CanelaUserManagementMicroservice.model.dto.UserDTO;
 import com.talenthub.CanelaUserManagementMicroservice.model.dto.UserWithRolesDTO;
 import com.talenthub.CanelaUserManagementMicroservice.service.UserService;
 
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
@@ -31,6 +32,15 @@ public class UserController {
     public List<UserWithRolesDTO> findAllWithRoles(){
         return userService.findAllWithRoles();
     }
+
+    @CrossOrigin
+    @GetMapping("/find_all_with_roles_by_company_id/{id}")
+    public List<UserWithRolesDTO> findfindAllWithRolesByCompanyId(@PathVariable("id") Long id){
+        return userService.findAllWithRolesByCompanyId(id);
+
+    }
+    
+
 
 
 
