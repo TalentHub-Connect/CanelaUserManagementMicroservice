@@ -46,6 +46,10 @@ public class UserController {
         return userService.updateUser(id, userDTO);
     }
 
-
+    @CrossOrigin
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
 
     }
