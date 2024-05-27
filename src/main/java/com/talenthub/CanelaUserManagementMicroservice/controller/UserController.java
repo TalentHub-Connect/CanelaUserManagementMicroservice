@@ -39,8 +39,12 @@ public class UserController {
         return userService.findAllWithRolesByCompanyId(id);
 
     }
-    
 
+    @CrossOrigin
+    @PutMapping("/update/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        return userService.updateUser(id, userDTO);
+    }
 
 
 
