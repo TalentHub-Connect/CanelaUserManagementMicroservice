@@ -113,4 +113,10 @@ public class UserService {
         }
         return usuariosConRoles;
     }
+
+    public User updateUser(Long id, UserDTO userDTO) {
+        User existingUser = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+        BeanUtils.copyProperties(userDTO, existingUser, "id", "username"); // Excluir 'id' y 'username' de la actualización
+        return userRepository.save(existingUser);
+    }
 }
