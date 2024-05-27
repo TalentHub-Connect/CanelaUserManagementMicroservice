@@ -119,4 +119,8 @@ public class UserService {
         BeanUtils.copyProperties(userDTO, existingUser, "id", "username"); // Excluir 'id' y 'username' de la actualización
         return userRepository.save(existingUser);
     }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+    }
 }
