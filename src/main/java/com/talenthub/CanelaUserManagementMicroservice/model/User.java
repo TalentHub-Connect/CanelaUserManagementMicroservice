@@ -36,4 +36,7 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "companyid")
+    private Long companyid;
+
 }
