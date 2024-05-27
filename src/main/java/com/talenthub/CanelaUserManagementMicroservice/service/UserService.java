@@ -27,7 +27,7 @@ public class UserService {
     private RolService rolService;
 
     public User save(UserDTO user) {
-        User newUser = new User(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getUsername(), user.getPassword());
+        User newUser = new User(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getUsername(), user.getPassword(), user.getCompanyid());
         newUser.setUsername(newUser.getFirstname() + "." + newUser.getLastname());
         boolean hayCorreo = false;
         Integer numeroCorreo = 1;
@@ -58,6 +58,18 @@ public class UserService {
                         savedUser.getId()
                 );
                 rolService.save(rolAdmin);
+            }else{
+                LocalDate now =  LocalDate.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                Rol rolNOAdmin = new Rol(
+                        user.getRole(),
+                        user.getRole(),
+                        1,
+                        now.format(formatter),
+                        savedUser.getId(),
+                        savedUser.getId()
+                );
+                rolService.save(rolNOAdmin);
             }
         }
         return savedUser;
@@ -65,6 +77,26 @@ public class UserService {
 
     public List<UserWithRolesDTO> findAllWithRoles() {
         List<User> usuarios = userRepository.findAll();
+        List<UserWithRolesDTO> usuariosConRoles = new ArrayList<>();
+        for (User usuario : usuarios) {
+            List<String> roles = rolService.getRolesForUser(usuario.getId());
+            UserWithRolesDTO nuevoUsuario = new UserWithRolesDTO(
+                    usuario.getId(),
+                    usuario.getFirstname(),
+                    usuario.getLastname(),
+                    usuario.getEmail(),
+                    usuario.getUsername(),
+                    usuario.getPassword(),
+                    roles
+            );
+            usuariosConRoles.add(nuevoUsuario);
+        }
+        return usuariosConRoles;
+    }
+
+
+    public List<UserWithRolesDTO> findAllWithRolesByCompanyId(Long id) {
+        List<User> usuarios = userRepository.findAllByCompanyid(id);
         List<UserWithRolesDTO> usuariosConRoles = new ArrayList<>();
         for (User usuario : usuarios) {
             List<String> roles = rolService.getRolesForUser(usuario.getId());
